@@ -4,9 +4,9 @@ html {
     background: rgb(214, 154, 154);
 }
 
-#imagem{
-    width: 23vw;
-    height: 23vw;
+#imagem {
+    width: 21vw;
+    height: 21vw;
 }
 
 #imagem:hover {
@@ -102,7 +102,7 @@ html {
     margin: 0 0 0 1vw;
     height: 70px;
     width: 70px;
-    border: solid  0.2vw;
+    border: solid 0.2vw;
 }
 
 .area-upgrades {
@@ -132,37 +132,33 @@ html {
     width: 100px;
 }
 
-#cookieDourado{
+#cookieDourado {
     position: absolute;
     animation: aparecer 30s;
     cursor: pointer;
     opacity: 0;
 }
 
-.animacaoClickCookie{
+.animacaoClickCookie {
     animation: pop 0.2s ease infinite;
 }
 
-@keyframes aparecer{
+@keyframes aparecer {
     0% {
-        opacity: 0; 
+        opacity: 0;
         width: 0px;
         height: 0px;
     }
-
     20% {
         opacity: 1;
         width: 70px;
         height: 70px;
-
     }
-
-    60%{
+    60% {
         width: 70px;
         height: 70px;
         opacity: 1;
     }
-
     100% {
         opacity: 0;
         width: 30px;
@@ -170,19 +166,17 @@ html {
     }
 }
 
-@keyframes pop{
-    0%{
-        width: 23vw;
-        height: 23vw;
+@keyframes pop {
+    0% {
+        width: 21vw;
+        height: 21vw;
     }
-
-    50%{
+    50% {
         width: 25vw;
         height: 25vw;
     }
-
-    100%{
-        width: 23vw;
-        height: 23vw;
+    100% {
+        width: 21vw;
+        height: 21vw;
     }
 }

@@ -9,26 +9,76 @@ let excluirDados = document.getElementById('excluir')
 let tela = document.getElementById('container-site')
 let areaDetalhesUpgrades = document.getElementById('caixa-informações-upgrades')
 
-// ideia para a animação do click
-// Ao clicar, adiciona o ID novo criado lá no css
-// espera 1 segundo (pode alterar o tempo), tira o id e coloca outro
-// após o tempo desse outro id, retira ele também.
-
 //chuva de cookies: 1 a 6
 //multi7x: 7 a 9
 //multi77x: 10
 //numeros aleatórios sorteados
 
-//chuva de cookies dá 40% do qps* ou 30 cookies se caso não tiver qps* (quantidade por segundo)
-let efeitosDourados = ['chuva de cookies', 'multi7x', 'multi77x']
-//não vou usar a lista, mas vou deixar pra lembrar dos efeitos de forma mais clara
-
-function gerarEfeitoDourado(){
+function gerarEfeitoDourado() {
     let valorEfeito = geradorAleatórioValores(1, 10);
+    let efeito = '';
 
-    if (valorEfeito >= 1 && valorEfeito <= 6){
-        
+    if (valorEfeito >= 1 && valorEfeito <= 10) {
+        efeito = 'chuvaCookies'
     }
+    // else if (valorEfeito >= 7 <= 9) {
+    //     efeito = 'multi7x';
+    // } else if (valorEfeito == 10) {
+    //     efeito = 'multi77x';
+    // }
+
+    efeitoDourado(efeito)
+
+}
+
+function efeitoDourado(efeito) {
+    let tempo;
+    let multiplicador;
+    let modo = true;
+
+    if (efeito == 'chuvaCookies') {
+        if (dadosJogador.ganhoPorSegundo < 2) {
+            dadosJogador.dinheiro += 100
+            dadosJogador.totalDinheiro += 100
+
+            dinheiroTela.textContent =
+                `dinheiro atual: ${dadosJogador.dinheiro.toFixed(0)}`
+
+            totalTela.textContent =
+                `Quantidade total: ${dadosJogador.totalDinheiro.toFixed(0)}`
+            modo = false
+        } else {
+            dadosJogador.dinheiro += dadosJogador.dinheiro * 2.5
+        }
+    } else if (efeito == 'multi7x') {
+        tempo = 45000
+        multiplicador = 7
+    } else if (efeito == 'multi77x') {
+        tempo = 15000
+        multiplicador = 77
+    }
+
+    calcularEfeitoDourado(tempo, multiplicador, modo)
+}
+
+function calcularEfeitoDourado(tempo, multiplicador, modo) {
+
+    if (modo) {
+        let contador = tempo / 1000
+            // o contador vai ser utlizado mais para a frente (provavelmente em modo de teste)
+        dadosJogador.ganhoPorSegundo = dados.ganhoPorSegundo * multiplicador
+        clique.textContent =
+            `Quantidade por segundo: ${dadosJogador.ganhoPorSegundo.toFixed(2)}`
+
+        setTimeout(function() {
+
+            dadosJogador.ganhoPorSegundo = dadosJogador.ganhoPorSegundo / 77
+            clique.textContent =
+                `Quantidade por segundo: ${dadosJogador.ganhoPorSegundo.toFixed(2)}`
+        }, 10000)
+
+    }
+
 }
 
 function geradorAleatórioValores(min, max) {
@@ -45,24 +95,25 @@ function gerarDourado() {
 
     cookieDourado.style.marginLeft = posX + '%'
     cookieDourado.style.marginTop = posY + '%'
-    
+
     tela.appendChild(cookieDourado)
- 
+
     let efeitoDourado = false;
     let contador = 0;
 
-    setInterval(function () {
+    setInterval(function() {
 
-        if (!efeitoDourado && contador == 3){
+        if (!efeitoDourado && contador == 3) {
             tela.removeChild(cookieDourado)
         }
-        
+
         contador++;
 
     }, 1000)
 
-    cookieDourado.addEventListener('click', function(){
+    cookieDourado.addEventListener('click', function() {
         efeitoDourado = true;
+        gerarEfeitoDourado()
         tela.removeChild(cookieDourado)
     })
 }
@@ -75,8 +126,7 @@ let dadosJogador = JSON.parse(localStorage.getItem('dadosJogador')) || {
     quantClick: 0
 }
 
-let melhoria = JSON.parse(localStorage.getItem('melhoria')) || [
-    {
+let melhoria = JSON.parse(localStorage.getItem('melhoria')) || [{
         nome: 'cursor',
         preco: 15,
         quantidade: 0,
@@ -112,8 +162,7 @@ let melhoria = JSON.parse(localStorage.getItem('melhoria')) || [
     }
 ]
 
-let upgrades = JSON.parse(localStorage.getItem('upgrades')) || [
-    {
+let upgrades = JSON.parse(localStorage.getItem('upgrades')) || [{
         nome: 'cliques em dobro',
         descrição: 'Aumente a produção de cps dos cursores pelo dobro.',
         valor: 100,
@@ -187,15 +236,15 @@ function criar_upgrades() {
             upgr.appendChild(imagemUpgrade)
             areaUpgrades.appendChild(upgr)
 
-            imagemUpgrade.addEventListener('mouseenter', function () {
+            imagemUpgrade.addEventListener('mouseenter', function() {
                 adicionar_upgrades(index, true)
             })
 
-            imagemUpgrade.addEventListener('mouseleave', function () {
+            imagemUpgrade.addEventListener('mouseleave', function() {
                 adicionar_upgrades(index, false)
             })
 
-            imagemUpgrade.addEventListener('click', function () {
+            imagemUpgrade.addEventListener('click', function() {
                 comprar_upgrades(index);
             })
         }
@@ -250,7 +299,7 @@ function compra(indice) {
 
         melhorias.quantidade++
 
-        dadosJogador.ganhoPorSegundo += melhorias.ganho;
+            dadosJogador.ganhoPorSegundo += melhorias.ganho;
         melhorias.ganhoTotal += melhorias.ganho
 
         criar_upgrades()
@@ -305,7 +354,7 @@ function adicionar(dinheiroTotal) {
             caixa.appendChild(quantidadeDiv)
             area.appendChild(caixa)
 
-            caixa.addEventListener('click', function () {
+            caixa.addEventListener('click', function() {
                 compra(index)
             })
 
@@ -373,7 +422,7 @@ function renderizar() {
 
 }
 
-setInterval(function () {
+setInterval(function() {
 
     let ganho = dadosJogador.ganhoPorSegundo / 20;
 
@@ -392,28 +441,30 @@ setInterval(function () {
 
 }, 50)
 
-button.addEventListener('click', function () {
+button.addEventListener('click', function() {
     dadosJogador.quantClick++
-    dadosJogador.dinheiro += dadosJogador.ganho
+        dadosJogador.dinheiro += dadosJogador.ganho
     dadosJogador.totalDinheiro += dadosJogador.ganho
 
     button.classList.add('animacaoClickCookie')
 
-    setTimeout(function(){
+    setTimeout(function() {
         button.classList.remove('animacaoClickCookie')
     }, 200)
 
+    // gerarDourado()
     adicionar(dadosJogador.totalDinheiro)
     criar_upgrades()
     renderizar()
     salvar();
 })
 
-excluirDados.addEventListener('click', function () {
+excluirDados.addEventListener('click', function() {
     localStorage.clear();
 })
 
 criar_upgrades()
 adicionar(dadosJogador.totalDinheiro)
 renderizar();
+localStorage.clear()
 localStorage.clear()

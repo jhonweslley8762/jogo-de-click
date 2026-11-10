@@ -9,6 +9,11 @@ let excluirDados = document.getElementById('excluir')
 let tela = document.getElementById('container-site')
 let areaDetalhesUpgrades = document.getElementById('caixa-informações-upgrades')
 
+// ideia para a animação do click
+// Ao clicar, adiciona o ID novo criado lá no css
+// espera 1 segundo (pode alterar o tempo), tira o id e coloca outro
+// após o tempo desse outro id, retira ele também.
+
 //chuva de cookies: 1 a 6
 //multi7x: 7 a 9
 //multi77x: 10
@@ -391,11 +396,17 @@ button.addEventListener('click', function () {
     dadosJogador.quantClick++
     dadosJogador.dinheiro += dadosJogador.ganho
     dadosJogador.totalDinheiro += dadosJogador.ganho
+
+    button.classList.add('animacaoClickCookie')
+
+    setTimeout(function(){
+        button.classList.remove('animacaoClickCookie')
+    }, 200)
+
     adicionar(dadosJogador.totalDinheiro)
     criar_upgrades()
     renderizar()
     salvar();
-
 })
 
 excluirDados.addEventListener('click', function () {

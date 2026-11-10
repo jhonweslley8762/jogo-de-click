@@ -4,6 +4,11 @@ html {
     background: rgb(214, 154, 154);
 }
 
+#imagem{
+    width: 23vw;
+    height: 23vw;
+}
+
 #imagem:hover {
     cursor: pointer;
 }
@@ -97,11 +102,7 @@ html {
     margin: 0 0 0 1vw;
     height: 70px;
     width: 70px;
-    border: solid black 0.1vw;
-}
-
-.up {
-    background: blue;
+    border: solid  0.2vw;
 }
 
 .area-upgrades {
@@ -127,7 +128,7 @@ html {
 }
 
 .div-upgr {
-    background-color: blue;
+    /* background-color: blue; */
     width: 100px;
 }
 
@@ -136,6 +137,10 @@ html {
     animation: aparecer 30s;
     cursor: pointer;
     opacity: 0;
+}
+
+.animacaoClickCookie{
+    animation: pop 0.2s ease infinite;
 }
 
 @keyframes aparecer{
@@ -162,5 +167,22 @@ html {
         opacity: 0;
         width: 30px;
         height: 30px;
+    }
+}
+
+@keyframes pop{
+    0%{
+        width: 23vw;
+        height: 23vw;
+    }
+
+    50%{
+        width: 25vw;
+        height: 25vw;
+    }
+
+    100%{
+        width: 23vw;
+        height: 23vw;
     }
 }
